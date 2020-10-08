@@ -6,7 +6,7 @@ class HomeScreen extends StatelessWidget {
     return const Scaffold(
       body: Center(
         child: Text(
-          'Phone Verification successful!',
+          'efvjlfvjslkfv Verification successful!',
           style: TextStyle(fontSize: 20.0),
         ),
       ),
