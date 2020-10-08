@@ -3,36 +3,36 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>xxxxxxxxxxxx-1pm1tg2176i3b8r9dn10akffcpknqmt6.apps.googleusercontent.com</string>
+	<string>627281221909-11a5f3jvu95ttkhmtre43mql3770iq76.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.xxxxxxxxxxxx-1pm1tg2176i3b8r9dn10akffcpknqmt6</string>
+	<string>com.googleusercontent.apps.627281221909-11a5f3jvu95ttkhmtre43mql3770iq76</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>xxxxxxxxxxxx-aes7i93i545nisjndnhbl71hh9e2gsm9.apps.googleusercontent.com</string>
+	<string>627281221909-a6tvd0mfptarcls81bn26pcoj5rofmsi.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>xxxxxxxxxxxx-xxxxxxxxxxxx</string>
+	<string>AIzaSyDxm-XrMjJ57vP-a69Ac5e6sZx-D5QIsog</string>
 	<key>GCM_SENDER_ID</key>
-	<string>xxxxxxxxxxxx</string>
+	<string>627281221909</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.flutterOtpModule</string>
+	<string>com.example.santosAuth</string>
 	<key>PROJECT_ID</key>
-	<string>flutterfirebasedemo-9577a</string>
+	<string>numberlogin-d5170</string>
 	<key>STORAGE_BUCKET</key>
-	<string>flutterfirebasedemo-9577a.appspot.com</string>
+	<string>numberlogin-d5170.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:xxxxxxxxxxxx:ios:22d07016bff16e364b0005</string>
+	<string>1:627281221909:ios:240ffd7c91bcbbbae7f11c</string>
 	<key>DATABASE_URL</key>
-	<string>https://flutterfirebasedemo-9577a.firebaseio.com</string>
+	<string>https://numberlogin-d5170.firebaseio.com</string>
 </dict>
 </plist>
