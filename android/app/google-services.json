@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "xxxxxxxxxxxx",
-    "firebase_url": "https://flutterfirebasedemo-9577a.firebaseio.com",
-    "project_id": "flutterfirebasedemo-9577a",
-    "storage_bucket": "flutterfirebasedemo-9577a.appspot.com"
+    "project_number": "627281221909",
+    "firebase_url": "https://numberlogin-d5170.firebaseio.com",
+    "project_id": "numberlogin-d5170",
+    "storage_bucket": "numberlogin-d5170.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:xxxxxxxxxxxx:android:5156997b7ea052854b0005",
+        "mobilesdk_app_id": "1:627281221909:android:25845f678cd2900fe7f11c",
         "android_client_info": {
-          "package_name": "com.example.flutter_otp_module"
+          "package_name": "com.example.santosAuth"
         }
       },
       "oauth_client": [
         {
-          "client_id": "xxxxxxxxxxxx-aes7i93i545nisjndnhbl71hh9e2gsm9.apps.googleusercontent.com",
+          "client_id": "627281221909-a6tvd0mfptarcls81bn26pcoj5rofmsi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.flutter_otp_module",
-            "certificate_hash": "1e18d44e9885a2bbf5a937a95b10061cef7548ee"
+            "package_name": "com.example.santosAuth",
+            "certificate_hash": "1923ac15c1bf6aa9fb3be6edff55f1565505e438"
           }
         },
         {
-          "client_id": "xxxxxxxxxxxx-lodp80emo6di5l5t0d356g1a9gphitvj.apps.googleusercontent.com",
+          "client_id": "627281221909-u28gdc5sl6eivrra23dr04iaqkf5aude.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "xxxxxxxxxxxx-g-famDgC3jx6VV4h-Njrw5A"
+          "current_key": "AIzaSyBeYteNH-mAsq3UDm2QYT2LKeTkABbxDiE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "xxxxxxxxxxxx-lodp80emo6di5l5t0d356g1a9gphitvj.apps.googleusercontent.com",
+              "client_id": "627281221909-u28gdc5sl6eivrra23dr04iaqkf5aude.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
