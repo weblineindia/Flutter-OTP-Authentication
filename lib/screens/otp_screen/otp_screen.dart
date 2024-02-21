@@ -1,11 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:pin_entry_text_field/pin_entry_text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:otp_pin_field/otp_pin_field.dart';
 
 // ignore: must_be_immutable
 class OtpScreen extends StatefulWidget {
@@ -17,12 +16,12 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-  String phoneNo;
-  String smsOTP;
-  String verificationId;
+  late String phoneNo;
+  late String smsOTP;
+  late String verificationId;
   String errorMessage = '';
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Timer _timer;
+  final _otpPinFieldKey = GlobalKey<OtpPinFieldState>();
 
   //this is method is used to initialize data
   @override
@@ -30,7 +29,7 @@ class _OtpScreenState extends State<OtpScreen> {
     super.didChangeDependencies();
     // Load data only once after screen load
     if (widget._isInit) {
-      widget._contact = '${ModalRoute.of(context).settings.arguments as String}';
+      widget._contact = '${ModalRoute.of(context)?.settings.arguments as String}';
       generateOtp(widget._contact);
       widget._isInit = false;
     }
@@ -70,7 +69,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   height: screenHeight * 0.05,
                 ),
                 Image.asset(
-                  'assets/images/varification.png',
+                  'assets/images/registration.png',
                   height: screenHeight * 0.3,
                   fit: BoxFit.contain,
                 ),
@@ -115,11 +114,15 @@ class _OtpScreenState extends State<OtpScreen> {
                     children: [
                       Container(
                         margin: EdgeInsets.only(left: screenWidth * 0.025),
-                        child: PinEntryTextField(
-                          fields: 6,
+                        child: OtpPinField(
+                          key: _otpPinFieldKey,
+                          textInputAction: TextInputAction.done,
+                          maxLength: 6,
+                          fieldWidth: 40,
                           onSubmit: (text) {
-                            smsOTP = text as String;
+                            smsOTP = text;
                           },
+                          onChange: (text) {},
                         ),
                       ),
                       SizedBox(
@@ -157,44 +160,47 @@ class _OtpScreenState extends State<OtpScreen> {
 
   //Method for generate otp from firebase
   Future<void> generateOtp(String contact) async {
-    final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
+    final PhoneCodeSent smsOTPSent = (verId, forceResendingToken) {
       verificationId = verId;
     };
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: contact,
-          codeAutoRetrievalTimeout: (String verId) {
-            verificationId = verId;
-          },
-          codeSent: smsOTPSent,
-          timeout: const Duration(seconds: 60),
-          verificationCompleted: (AuthCredential phoneAuthCredential) {},
-          verificationFailed: (AuthException exception) {
-           // Navigator.pop(context, exception.message);
-          });
+        phoneNumber: contact,
+        codeAutoRetrievalTimeout: (String verId) {
+          verificationId = verId;
+        },
+        codeSent: smsOTPSent,
+        timeout: const Duration(seconds: 60),
+        verificationCompleted: (AuthCredential phoneAuthCredential) {},
+        verificationFailed: (error) {
+          print(error);
+        },
+      );
     } catch (e) {
       handleError(e as PlatformException);
-     // Navigator.pop(context, (e as PlatformException).message);
     }
   }
 
   //Method for verify otp entered by user
   Future<void> verifyOtp() async {
-    if (smsOTP == null || smsOTP == '') {
+    if (smsOTP.isEmpty || smsOTP == '') {
       showAlertDialog(context, 'please enter 6 digit otp');
       return;
     }
     try {
-      final AuthCredential credential = PhoneAuthProvider.getCredential(
+      final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: smsOTP,
       );
-      final AuthResult user = await _auth.signInWithCredential(credential);
-      final FirebaseUser currentUser = await _auth.currentUser();
-      assert(user.user.uid == currentUser.uid);
+      final UserCredential user = await _auth.signInWithCredential(credential);
+      final User? currentUser = _auth.currentUser;
+      assert(user.user?.uid == currentUser?.uid);
       Navigator.pushReplacementNamed(context, '/homeScreen');
-    } catch (e) {
-      handleError(e as PlatformException);
+    } on PlatformException catch(e){
+      handleError(e);
+    }
+    catch (e) {
+      print('error $e');
     }
   }
 
@@ -209,7 +215,7 @@ class _OtpScreenState extends State<OtpScreen> {
         showAlertDialog(context, 'Invalid Code');
         break;
       default:
-        showAlertDialog(context, error.message);
+        showAlertDialog(context, error.message ?? 'Error');
         break;
     }
   }
@@ -238,5 +244,4 @@ class _OtpScreenState extends State<OtpScreen> {
       },
     );
   }
-
 }

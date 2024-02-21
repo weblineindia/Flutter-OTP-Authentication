@@ -48,6 +48,18 @@ Setup process is described below to integrate in sample project.
 
 ### Methods
 
+Configure Firebase in main method.
+    
+    WidgetsFlutterBinding.ensureInitialized();
+    Platform.isAndroid
+        ? await Firebase.initializeApp(
+            options: const FirebaseOptions(
+                apiKey: 'xxxxxxxxxxxx-g-famDgC3jx6VV4h-xxxxxx',
+                appId: '1:xxxxxxxxxxxx:android:xxxxxxxb7ea052854b0005',
+                messagingSenderId: 'xxxxxxxxxxxx',
+                projectId: 'flutterxxxxxxxxx-9xxxa'))
+        : await Firebase.initializeApp();
+
 Configure Country Picker Widget & implement method for call back selected country details e.g
       
     // Put CountryPicker Widget
@@ -60,43 +72,53 @@ Configure Country Picker Widget & implement method for call back selected countr
         // place your code
     }
     
-Configure PINEntryTextField For OTP (One Time Password)
+Configure OtpPinField For OTP (One Time Password)
     
-    // add this package in pubspec.yaml file
-    pin_entry_text_field: ^0.1.4
+    // add these packages in pubspec.yaml file
+    otp_pin_field: ^1.2.2
+    firebase_core: ^2.25.4
        
     // run this command to install package
     flutter pub get
        
-    // add PINEntryTextField in class
-    PinEntryTextField(
-      fields: 6,
+    // initialize key and add OtpPinField in class
+
+    final _otpPinFieldKey = GlobalKey<OtpPinFieldState>();
+
+    OtpPinField(
+      key: _otpPinFieldKey,
+      textInputAction: TextInputAction.done,
+      maxLength: 6,
+      fieldWidth: 40,
       onSubmit: (text) {
+            smsOTP = text;
       },
+      onChange: (text) {}
     )
       
 Validate Phone Number & Generate Otp     
       
     // generate otp method and store Verification Id
     Future<void> generateOtp(String contact) async {
-      final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
-        verificationId = verId;
+      final PhoneCodeSent smsOTPSent = (verId, forceResendingToken) {
+      verificationId = verId;
       };
       try {
         await _auth.verifyPhoneNumber(
-            phoneNumber: contact,
-            codeAutoRetrievalTimeout: (String verId) {
-              verificationId = verId;
-            },
-            codeSent: smsOTPSent,
-            timeout: const Duration(seconds: 60),
-            verificationCompleted: (AuthCredential phoneAuthCredential) {},
-            verificationFailed: (AuthException exception) {
-             // Navigator.pop(context, exception.message);
-            });
+        phoneNumber: contact,
+        codeAutoRetrievalTimeout: (String verId) {
+          verificationId = verId;
+        },
+        codeSent: smsOTPSent,
+        timeout: const Duration(seconds: 60),
+        verificationCompleted: (AuthCredential phoneAuthCredential) {},
+        verificationFailed: (error) {
+          print(error);
+        },
+       );
       } catch (e) {
-        Navigator.pop(context, (e as PlatformException).message);
-      }
+      handleError(e as PlatformException);
+     }
     }
        
 
@@ -104,23 +126,25 @@ Verify otp
        
     //Method for verify otp entered by user  
     Future<void> verifyOtp() async {
-      if (smsOTP == null || smsOTP == '') {
-        showAlertDialog(context, 'please enter 6 digit otp');
-        return;
+       if (smsOTP.isEmpty || smsOTP == '') {
+          showAlertDialog(context, 'please enter 6 digit otp');
+          return;
+        }
+        try {
+              final AuthCredential credential = PhoneAuthProvider.credential(
+                verificationId: verificationId,
+                smsCode: smsOTP,
+              );
+              final UserCredential user = await _auth.signInWithCredential(credential);
+              final User? currentUser = _auth.currentUser;
+              assert(user.user?.uid == currentUser?.uid);
+              Navigator.pushReplacementNamed(context, '/homeScreen');
+            } on PlatformException catch(e){
+          handleError(e);
+        } catch (e) {
+              print('error $e');
+            }
       }
-      try {
-        final AuthCredential credential = PhoneAuthProvider.getCredential(
-          verificationId: verificationId,
-          smsCode: smsOTP,
-        );
-        final AuthResult user = await _auth.signInWithCredential(credential);
-        final FirebaseUser currentUser = await _auth.currentUser();
-        assert(user.user.uid == currentUser.uid);
-        Navigator.pushReplacementNamed(context, '/homeScreen');
-      } catch (e) {
-        handleError(e as PlatformException);
-      }
-    }
 
 
 Handle errors
@@ -136,7 +160,7 @@ Handle errors
           showAlertDialog(context, 'Invalid Code');
           break;
         default:
-          showAlertDialog(context, error.message);
+          showAlertDialog(context, error.message ?? 'Error');
           break;
       }
     }

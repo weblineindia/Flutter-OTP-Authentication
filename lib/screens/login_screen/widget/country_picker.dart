@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CountryPicker extends StatefulWidget {
-  CountryPicker({@required this.callBackFunction, this.headerText, this.headerBackgroundColor, this.headerTextColor});
+  CountryPicker({required this.callBackFunction, required this.headerText, required this.headerBackgroundColor, required this.headerTextColor});
 
   final Function callBackFunction;
   final String headerText;
@@ -18,7 +18,7 @@ class CountryPicker extends StatefulWidget {
 // Country picker state class
 class _CountryPickerState extends State<CountryPicker> {
   List<CountryModel> countryList = [];
-  CountryModel selectedCountryData;
+  CountryModel? selectedCountryData;
 
   @override
   //method calls when state change
@@ -31,7 +31,7 @@ class _CountryPickerState extends State<CountryPicker> {
         countryList = parseJson(data);
         selectedCountryData = countryList[0];
       });
-      widget.callBackFunction(selectedCountryData.name, selectedCountryData.dialCode, selectedCountryData.flag);
+      widget.callBackFunction(selectedCountryData?.name, selectedCountryData?.dialCode, selectedCountryData?.flag);
     }
     super.didChangeDependencies();
   }
@@ -58,11 +58,11 @@ class _CountryPickerState extends State<CountryPicker> {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                selectedCountryData != null ? selectedCountryData.flag : '',
+                selectedCountryData != null ? selectedCountryData!.flag : '',
                 style: const TextStyle(fontSize: 20),
               ),
               Text(
-                selectedCountryData != null ? selectedCountryData.dialCode : '',
+                selectedCountryData != null ? selectedCountryData!.dialCode : '',
                 style: const TextStyle(fontSize: 16),
               )
             ],
@@ -95,17 +95,17 @@ class _CountryPickerState extends State<CountryPicker> {
 
 class CustomDialog extends StatefulWidget {
   const CustomDialog(
-      {@required this.searchList,
-      @required this.callBackFunction,
+      {required this.searchList,
+      required this.callBackFunction,
       this.headerText,
       this.headerBackgroundColor,
       this.headerTextColor});
 
   final List<CountryModel> searchList;
   final Function callBackFunction;
-  final String headerText;
-  final Color headerBackgroundColor;
-  final Color headerTextColor;
+  final String? headerText;
+  final Color? headerBackgroundColor;
+  final Color? headerTextColor;
 
   @override
   _CustomDialogState createState() => _CustomDialogState();
@@ -275,7 +275,7 @@ class _CustomDialogState extends State<CustomDialog> {
 
 //country model
 class CountryModel {
-  const CountryModel({@required this.name, @required this.dialCode, @required this.code, @required this.flag});
+  const CountryModel({required this.name, required this.dialCode, required this.code, required this.flag});
 
   factory CountryModel.fromJson(Map<String, dynamic> json) {
     final flag = CountryModel.getEmojiFlag(json['code'] as String);
