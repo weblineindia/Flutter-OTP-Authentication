@@ -20,7 +20,7 @@ A Flutter based OTP Authentication component, used to verify your mobile number 
 
 ## Flutter Support
 
-Version - Flutter 1.17 (stable)
+Version - Flutter 3.35.7 (stable)
 
 We have tested our program in above version, however you can use it in other versions as well.
 
@@ -75,8 +75,8 @@ Configure Country Picker Widget & implement method for call back selected countr
 Configure OtpPinField For OTP (One Time Password)
     
     // add these packages in pubspec.yaml file
-    otp_pin_field: ^1.2.2
-    firebase_core: ^2.25.4
+      firebase_core: ^4.3.0
+      otp_pin_field: ^1.4.1
        
     // run this command to install package
     flutter pub get
@@ -182,7 +182,7 @@ Download GoogleService.json file and add into Android folder
 
 Install following pub dev package
 
-firebase_auth: ^0.15.4
+firebase_auth: ^6.1.3
 
 ------
 
