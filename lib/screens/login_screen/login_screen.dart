@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   border: InputBorder.none,
                                   enabledBorder: InputBorder.none,
                                   focusedBorder: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 13.5),
+                                  contentPadding: EdgeInsets.symmetric(vertical: 11.5),
                                 ),
                                 controller: _contactEditingController,
                                 keyboardType: TextInputType.number,

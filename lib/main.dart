@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -9,14 +7,7 @@ import 'screens/otp_screen/otp_screen.dart';
 
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
-    Platform.isAndroid
-        ? await Firebase.initializeApp(
-            options: const FirebaseOptions(
-                apiKey: 'xxxxxxxxxxxx-g-famDgC3jx6VV4h-xxxxxx',
-                appId: '1:xxxxxxxxxxxx:android:xxxxxxxb7ea052854b0005',
-                messagingSenderId: 'xxxxxxxxxxxx',
-                projectId: 'flutterxxxxxxxxx-9xxxa'))
-        : await Firebase.initializeApp();
+    await Firebase.initializeApp();
 
   runApp(MyApp());
 }
